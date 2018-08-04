@@ -1,0 +1,37 @@
+<DOCTYPE html>
+<html>
+<title>input to json</title>
+<head>
+</head>
+<body>
+
+<h1>input to json</h1>
+<input type="text" name="data" id="data"><br />
+<button class="input_json">click</button>
+<div class = "result"></div>
+
+<script>
+document.querySelector('.input_json').addEventListener('click',function(){
+  var inputdata = document.getElementById("data").value;
+  sendAjax('http://localhost:3000/input',inputdata);
+})
+
+function sendAjax(url, data){
+  var data = {'data':data};
+  data = JSON.stringify(data);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader('Content-Type',"application/json");
+  xhr.send(data);
+
+  xhr.addEventListener('load',function(){
+    console.log(xhr.responseText);
+    //var result = JSON.parse(xhr.responseText);
+    document.querySelector(".result").innerHTML = xhr.responseText;
+  });
+}
+
+</script>
+</body>
+</html>
