@@ -4,6 +4,7 @@ var router = express.Router();
 var path = require('path');
 var main =  require('./main/main');
 var email = require('./email/email');
+var join = require('./join/index');
 
 
 //url routing
@@ -14,5 +15,6 @@ router.get('/', function(req,res){
 
 router.use('/main',main) //main으로 들어오면 router 정보를 이걸 쓰라는 뜻 (상단의 require 하는 부분 가져옴)
 router.use('/email',email)
+router.use('/join',join)
 
 module.exports = router;
