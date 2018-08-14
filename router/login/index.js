@@ -19,7 +19,7 @@ router.get('/', function(req,res){
   var msg;
   var errMsg = req.flash('error');
   if(errMsg) msg = errMsg;
-   res.render('join.ejs', {'message' : msg});
+   res.render('login.ejs', {'message' : msg});
 });
 
 //passport.serialize
@@ -64,20 +64,6 @@ router.post('/', passport.authenticate('local-join', {
   failureFlash: true })
 )
 
-// router.post('/',function(req,res){
-//   var body = req.body;
-//   var email = body.email;
-//   var name = body.name;
-//   var pwd = body.pwd;
-
-//   var sql = {email : email, name : name, pwd : pwd};
-//   var query = connection.query('insert into user set ?', sql, function(err, rows){
-//   if(err) {
-//     throw err;
-//   }else{
-//     res.render('welcome.ejs', {'name' : name, 'id' : rows.insertId})}
-//   })
-// })
 
 
 module.exports = router;
