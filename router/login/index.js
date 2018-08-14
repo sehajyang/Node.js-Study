@@ -35,7 +35,7 @@ passport.deserializeUser(function(id, done){
   //이부분에선 DB 조회없이 id값을 뽑아서 페이지에 전달
 })
 
-passport.use('local-join', new LocalStrategy({
+passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback : true
@@ -45,24 +45,25 @@ passport.use('local-join', new LocalStrategy({
 
     if(rows.length) {
       console.log('existed user')
-      return done(null, false, {message : 'your email is already used'})
+      return done(null, {'email' : email, 'pwd' : pwd})
     } else {
-      var sql = {email: email, pw:password};
-      var query = connection.query('insert into user set ?', sql, function(err,rows) {
-        if(err) throw err;
-        return done(null, {'email' : email, 'id' : rows.insertId});
-      })
-
+        return done(null,false, {'message':'your email is not found'})
+     }
+     })
     }
-  })
-}
 ));
+//custom callback 사용
+router.post('/', function(req, res, next){
+    passport.authenticate('local-login', function(err, user,info){
+        if(err) res.status(500).json(err);
+        if(!user) return res.status(401).json(info.message);
 
-router.post('/', passport.authenticate('local-join', {
-  successRedirect: '/main',
-  failureRedirect: '/join',
-  failureFlash: true })
-)
+        req.login(user, function(err) {
+            if (err) {return next(err);}
+            return res.json(user);
+        });
+    })(req, res, next);
+})
 
 
 

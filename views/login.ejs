@@ -3,17 +3,18 @@
     <body>
     <form action="email/form" method="post">
      email: <input type="text" name="email"><br />
-     passwd: <input type="password" name="pwd"><br />
+     pwd: <input type="password" name="pwd"><br />
+     <input class="sendbtn" type="submit">
     </form>
-    <button class="ajaxsend">login</button>
     <div class="result"></div>
+    <div class='signup'><a href='/join'>Sign up</a></div>
     
     <script>
-    document.querySelector('.ajaxsend').addEventListener('click', function(){
-    
+    document.querySelector('.ajaxsend').addEventListener('click', function(e){
+     e.preventDefault();
       var email = document.getElementsByName('email')[0].value;
-      var password = document.getElementsByName('pwd')[0].value;
-      sendAjax('http://localhost:3000/email/ajax', {'email':email,'pwd' : pwd}
+      var pwd = document.getElementsByName('pwd')[0].value;
+      sendAjax('http://localhost:3000/login', {'email': email,'pwd': pwd}
       );
     })
     
@@ -21,18 +22,21 @@
       data = JSON.stringify(data);
     
       var xhr = new XMLHttpRequest();
-      xhr.open('POST',url);
-      xhr.setRequestHeader('Content-Type',"application/json");
-      xhr.send(data);
-    
-      xhr.addEventListener('load',function(){
-        console.log(xhr.responseText);
-        var result = JSON.parse(xhr.responseText);
-        var resultDiv = document.querySelector(".result");
-        if(result.result !== "ok") resultDiv.innerHTML = "not found"
-        else resultDiv.innerHTML = result.name;
-      });
-    }
+    			xhr.open('POST', url);
+    			xhr.setRequestHeader('Content-Type', "application/json");
+                xhr.send(data);
+                
+                xhr.addEventListener('load', function() {
+    				var result = JSON.parse(xhr.responseText);
+                    var resultDiv = document.querySelector(".result");
+    				if(result.email)  {
+                        window.location.href="../main.ejs";
+                    }
+    				else if (xhr.status === 401) resultDiv.innerHTML = result;
+                    else resultDiv.innerHTML = result;
+                
+    			});
+    		}
     </script>
     </body>
     </html>

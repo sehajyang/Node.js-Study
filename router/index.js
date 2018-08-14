@@ -6,6 +6,7 @@ var main =  require('./main/main');
 var email = require('./email/email');
 var join = require('./join/index');
 var login = require('./login/index');
+var logout = require('./login/index')
 
 
 //url routing
@@ -17,5 +18,6 @@ router.use('/main',main) //main으로 들어오면 router 정보를 이걸 쓰�
 router.use('/email',email)
 router.use('/join',join)
 router.use('/login', login)
+router.use('/logout', logout)
 
 module.exports = router;

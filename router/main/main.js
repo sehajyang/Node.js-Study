@@ -4,9 +4,9 @@ var router = express.Router(); //express 의 Router 메소드
 var path = require('path');
 
 router.get('/', function(req,res){
-  console.log('main is loaded', req.user);
   var id = req.user;
-	 res.sendFile(path.join(__dirname, '../public/main.html'));
+  if(!id) res,render('login.ejs');
+   res.render('main ejs', {'id': id });
 });
 
 module.exports = router;
