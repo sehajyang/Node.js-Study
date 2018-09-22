@@ -6,7 +6,8 @@ var main =  require('./main/main');
 var email = require('./email/email');
 var join = require('./join/index');
 var login = require('./login/index');
-var logout = require('./login/index')
+var logout = require('./login/index');
+
 
 
 //url routing
